@@ -14,61 +14,56 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
-// Necessary for Next auth
-model Account {
-    id                       String  @id @default(cuid())
-    userId                   String
-    type                     String
-    provider                 String
-    providerAccountId        String
-    refresh_token            String? // @db.Text
-    access_token             String? // @db.Text
-    expires_at               Int?
-    token_type               String?
-    scope                    String?
-    id_token                 String? // @db.Text
-    session_state            String?
-    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    refresh_token_expires_in Int?
-
-    @@unique([provider, providerAccountId])
-}
-
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+    u_id        Int      @id @default(autoincrement())
+    u_username  String
+    u_password  String
+    u_name      String
+    u_lastname  String
+    u_tel       String
+    u_email     String
+    u_role      Role
+    u_createdAt DateTime @default(now())
+    u_updatedAt DateTime @updatedAt
+    Borrow      Borrow[]
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+enum Role {
+    ADMIN
+    USER
+}
 
-    @@unique([identifier, token])
+model Equipment {
+    e_id              Int      @id @default(autoincrement())
+    e_name            String
+    e_model           String
+    e_description     String
+    e_color           String
+    e_image           String
+    e_number          String
+    e_shipping_number String
+    e_date_received   DateTime
+    e_available_qty   Int
+    e_createdAt       DateTime @default(now())
+    e_updatedAt       DateTime @updatedAt
+    Borrow            Borrow[]
+}
+
+model Borrow {
+    b_id           Int       @id @default(autoincrement())
+    b_user         User      @relation(fields: [b_user_id], references: [u_id])
+    b_user_id      Int
+    b_equipment    Equipment @relation(fields: [b_equipment_id], references: [e_id])
+    b_equipment_id Int
+    b_date_borrow  DateTime
+    b_date_return  DateTime
+    e_status       Status
+    is_damage      Boolean
+    b_createdAt    DateTime  @default(now())
+    b_updatedAt    DateTime  @updatedAt
+}
+
+enum Status {
+    BORROW
+    RETURN
 }
