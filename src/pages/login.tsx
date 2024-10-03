@@ -68,7 +68,7 @@ const Login: NextPage<Props> = () => {
             <Button
               size="lg"
               fullWidth
-              color="blue"
+              color="orange"
               onClick={() => {
                 void router.push('/')
               }}
