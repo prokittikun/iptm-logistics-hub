@@ -1,13 +1,17 @@
-import { CloseButton, Input } from "@mantine/core";
+import { Button, CloseButton, Input } from "@mantine/core";
 import { type NextPage } from "next";
 import { useState } from "react";
-import { LockKeyhole, User } from 'lucide-react';
+import { LockKeyhole, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface Props {}
 
 const Login: NextPage<Props> = () => {
   const [value, setValue] = useState("");
   const [password, setPassword] = useState("");
+
+  const router = useRouter();
   return (
     <>
       <div className="flex min-h-screen items-center justify-center">
@@ -47,6 +51,7 @@ const Login: NextPage<Props> = () => {
             <Input
               placeholder="Password"
               value={password}
+              type="password"
               onChange={(event) => setPassword(event.currentTarget.value)}
               rightSectionPointerEvents="all"
               mt="md"
@@ -60,6 +65,16 @@ const Login: NextPage<Props> = () => {
                 />
               }
             />
+            <Button
+              size="lg"
+              fullWidth
+              color="blue"
+              onClick={() => {
+                void router.push('/')
+              }}
+            >
+              Login
+            </Button>
             <div className="flex w-full items-center gap-5">
               <div className="h-[1px] w-full bg-black"></div>
               <div className="flex-1">
@@ -70,10 +85,7 @@ const Login: NextPage<Props> = () => {
               <div className="h-[1px] w-full bg-black"></div>
             </div>
             <Link href="/register">
-            <div className="text-center">
-              Register
-
-            </div>
+              <div className="text-center">Register</div>
             </Link>
           </div>
         </div>

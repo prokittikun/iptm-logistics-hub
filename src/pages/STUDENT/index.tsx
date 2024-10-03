@@ -1,8 +1,5 @@
-import { signIn, signOut, useSession } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
+import React from "react";
 
-import { api } from "@/utils/api";
 import { type GetServerSideProps } from "next";
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // const token = await getToken({
@@ -13,7 +10,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     redirect: {
       permanent: false,
-      destination: `/STUDENT`,
+      destination: `/STUDENT/equipment`,
     },
     props: {},
   };
@@ -22,12 +19,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   //   props: {},
   // };
 };
-
-export default function Home() {
-
-  return (
-    <>
-     
-    </>
-  );
+function index() {
+  return <div>index</div>;
 }
+
+export default index;
